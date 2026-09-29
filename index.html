@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ขอโทษนะคนดี</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ffe6eb 0%, #ffccd5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 107, 129, 0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #ff4757;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .input-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .input-box:focus {
+            border-color: #ff4757;
+            box-shadow: 0 0 8px rgba(255, 71, 87, 0.2);
+        }
+        .btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+        .btn:hover {
+            background-color: #ff6b81;
+            transform: translateY(-2px);
+        }
+        .error-msg {
+            color: #ff4757;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .scroll-box {
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 20px;
+        }
+        .scroll-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .scroll-box::-webkit-scrollbar-thumb {
+            background: #ffccd5;
+            border-radius: 10px;
+        }
+        .heart-icon {
+            font-size: 50px;
+            color: #ff4757;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+            animation: popUp 0.4s ease;
+        }
+        @keyframes popUp {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Step 1: Passcode -->
+        <div id="step-1" class="step active">
+            <div class="heart-icon">🔒</div>
+            <h1>ยืนยันตัวตนคนสำคัญ</h1>
+            <p class="center-text">กรุณากรอกวันเดือนปีที่ครบรอบของเรา<br>(ตัวเลข 4 หลัก เช่น 30 มกราคม ให้ใส่ 3001)</p>
+            <input type="password" id="passcode" class="input-box" placeholder="DDMM (เช่น 3001)" maxlength="4">
+            <div id="error-msg" class="error-msg">รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้งนะคนดี</div>
+            <button class="btn" onclick="checkPasscode()">ยืนยัน</button>
+        </div>
+
+        <!-- Step 2: Message -->
+        <div id="step-2" class="step">
+            <h1>สิ่งที่เค้าอยากบอกเทอ</h1>
+            <div class="scroll-box">
+                <p>เค้ามีเรื่องอยากจะบอกเทอ เค้าขอรวมทุกเรื่องที่คาใจตอนนี้ทั้งหมดมาบอก ขอให้เทอตั้งใจอ่านนะ</p>
+                <p>เค้าขอโทษตุ้ยนุ้ยสำหรับเรื่องที่ผ่านมาทุกอย่าง ไม่ว่าจะเป็นเรื่องที่เค้าไม่ใส่ใจเทอ เค้าไม่พยายามจัดการเคลียร์เรื่องแม่ให้เทอ เค้ารู้สึกผิดมากๆ ช่วงนี้ความรู้สึกเค้ามันไม่เหมือนเมื่อก่อนเลย ตอนนี้เค้ารู้สึกแทบไม่ต่างจากโดนเทอบอกเลิกเลย เราทะเลาะกันแทบทุกวัน เค้ายอมรับว่าเค้าไม่สบายใจ เค้ากลัว เค้ากังวลตลอดเลยว่าเค้าจะโดนเทอบอกเลิกเพราะทุกครั้งที่เราทะเลาะกัน เทอพูดตลอกว่า เทอมีสิทธิ์ที่จะไปแต่เทอเลือกอยู่กับเค้า ทำไมเทอต้องทนอยู่กับคนแบบเค้าด้วย เทอพร้อมบอกเลิกเค้าตลอดเวลาเลย เค้าไม่ได้โกรธเทอที่เทอจะทำตัวอย่างงี้ เค้าอาจจะคิดบางรอบว่าทำไมเทอถึงใจร้ายกับเค้า แต่พอมองกลับมา คนที่ใจร้ายกว่าคือเค้าต่างหาก เทอพูดถูกว่าเค้ามีโอกาสตั้งนานแล้ว ทำไมเค้าถึงเลือกมาทำตอนที่เทอจะไป เค้าสามารถทำได้แต่เค้าไม่ยอมทำ</p>
+                <p>นอกจากนี้เวลาที่ทะเลาะกัน เค้าจะไปส่องรีโพสของเทอว่าเป็นยังไงบ้าง เค้ายอมรับเลยว่าเค้าเสียใจมากๆ เค้าไม่ควรปล่อยให้เทอต้องรีโพสเนื้อหาแบบนั้น เค้าอ่านทีไรเค้าเสียใจและจุกตลอด มันเหมือนเค้าโดนเทอบอกเลิกทุกครั้งที่อ่านเลย เค้าเลยย้อนคิดถามตัวเองตลอดว่าทำไมเค้าถึงไม่ทำให้เร็วกว่านี้ เค้าจะปล่อยทำไมจนมันสายขนาดนี้</p>
+                <p>เค้าอยากจะบอกว่าที่เค้าไม่กล้าจัดการเรื่องแม่เพราะตอนแรกเค้ากลัวมากๆ เค้าไม่กล้าเล่าอะไรเลยเพราะกลัวโดนแม่บอกให้ไปเลิกกับเทอ แต่พอเทอเล่าให้เค้าฟังว่า แม่เทอพูดแบบนี้ตั้งหลายรอบแต่เทอยังทำต่อ ทำไปเรื่อยๆจนแม่เทอยอมรับ เทอถามว่า เค้าจะกลัวอะไรระหว่างแม่บอกให้ไปเลิกเทอกับเทอบอกเลิกเค้า พอเค้าได้ยินแบบนี้เค้าเลยเปลี่ยนความคิดว่า เออ เทอทำได้ ทำไมเค้าจะทำไม่ได้ เค้าเป็นผู้ชายแท้ๆทำไมเค้าถึงไม่ทำสักที</p>
+            </div>
+            <button class="btn" onclick="nextStep(3)">อ่านต่อ</button>
+        </div>
+
+        <!-- Step 3: Worries -->
+        <div id="step-3" class="step">
+            <h1>สิ่งที่กังวลในตอนนี้</h1>
+            <div class="scroll-box">
+                <p>สิ่งที่กังวลตอนนี้หลักๆเลยคือเค้ากลัวเทอบอกเลิกเค้าที่สุด เค้ากลัวจะไปจากเค้า เค้ากลัวว่าหลังจากที่เค้ากลับค่ายโอมาเค้าจะโดนเทอบอกเลิกเพราะเทอจะมีเวลาได้ใช้กับตัวเองบ่อยขึ้น นอกจากนี้เค้ายังกังวลว่าเค้าจะผ่านไปค่ายสองได้มั้ยเพราะเรื่องที่เค้าทำไม่ได้คือเรื่องสารชีวโมเลกุลกับอุณหเคมี ปีที่แล้วทั้งสองเรื่องนี้เค้าไม่ได้เรียนสองจึงไม่ค่อยมั่นใจ มันอาจจะดูไม่เกี่ยวในความสัมพันธ์แต่พอรวมกับเรื่องหลักๆที่เค้ากังวลมันจึงทำให้เค้ากดดันตัวเองมากๆและเค้าร้องไห้ได้ง่ายมากๆ ช่วงนี้</p>
+            </div>
+            <button class="btn" onclick="nextStep(4)">หน้าถัดไป</button>
+        </div>
+
+        <!-- Step 4: Apology -->
+        <div id="step-4" class="step">
+            <div class="heart-icon">💖</div>
+            <h1>เค้าขอโทษนะคนดี</h1>
+            <p class="center-text" style="text-align: center; margin-bottom: 25px;">
+                เค้าขอโทษที่ลืมร้านไป<br>
+                เค้ายอมรับว่าเค้าผิดไปแล้วจริงๆ<br>
+                เค้าจะไม่ทำให้มันเกิดขึ้นอีกนะ
+            </p>
+            <button class="btn" onclick="showModal()">ยกโทษให้เค้าหนูนะ ❤️</button>
+        </div>
+    </div>
+
+    <!-- Modal Success -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 45px; margin-bottom: 10px;">🥰</div>
+            <h2 style="color: #ff4757; margin-bottom: 10px;">ขอบคุณนะคนดี!</h2>
+            <p style="text-align: center; margin-bottom: 20px;">เค้าจะตั้งใจทำให้ดีขึ้น จะไม่ทำให้เสียใจอีกแล้วครับ</p>
+            <button class="btn" onclick="closeModal()">รักเทอนะ ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        function checkPasscode() {
+            const code = document.getElementById('passcode').value;
+            const errorMsg = document.getElementById('error-msg');
+            if (code === '3001') {
+                errorMsg.style.display = 'none';
+                nextStep(2);
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step-' + stepNumber).classList.add('active');
+        }
+
+        function showModal() {
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
